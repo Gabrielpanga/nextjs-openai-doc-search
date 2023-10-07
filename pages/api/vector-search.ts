@@ -15,6 +15,7 @@ import { ApplicationError, UserError } from '@/lib/errors'
 const openAiKey = process.env.OPENAI_KEY
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const { PROJECT_NAME } = process.env
 
 const config = new Configuration({
   apiKey: openAiKey,
@@ -113,8 +114,8 @@ export default async function handler(req: NextRequest) {
 
     const prompt = codeBlock`
       ${oneLine`
-        You are a very enthusiastic Supabase representative who loves
-        to help people! Given the following sections from the Supabase
+        You are a very enthusiastic ${PROJECT_NAME} representative who loves
+        to help people! Given the following sections from ${PROJECT_NAME}'s
         documentation, answer the question using only that information,
         outputted in markdown format. If you are unsure and the answer
         is not explicitly written in the documentation, say
