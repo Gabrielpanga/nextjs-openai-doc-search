@@ -6,15 +6,20 @@ import { inspect } from 'util'
 import yargs from 'yargs'
 import { MarkdownEmbeddingSource } from './modules/static-markdown'
 import { StatusPageEmbeddingSource } from './modules/statuspage'
+import { ReadmeComEmbeddingSource } from './modules/readme'
 
 dotenv.config()
 
-type EmbeddingSource = MarkdownEmbeddingSource | StatusPageEmbeddingSource
+type EmbeddingSource =
+  | MarkdownEmbeddingSource
+  | StatusPageEmbeddingSource
+  | ReadmeComEmbeddingSource
 
 async function getAllContent() {
   const embeddingSources: EmbeddingSource[] = [
     ...(await MarkdownEmbeddingSource.getAll()),
-    ...(await StatusPageEmbeddingSource.getAll())
+    ...(await StatusPageEmbeddingSource.getAll()),
+    ...(await ReadmeComEmbeddingSource.getAll()),
   ]
 
   return embeddingSources
@@ -49,7 +54,6 @@ async function generateEmbeddings() {
       },
     }
   )
-
 
   const embeddingSources = await getAllContent()
 
@@ -146,7 +150,7 @@ async function generateEmbeddings() {
         // TODO: maybeSingle its not working on local env. Remove this when fixed
         if (fetchParentPageError.details !== 'The result contains 0 rows') {
           throw fetchPageError
-        }      
+        }
       }
 
       // Create/update page record. Intentionally clear checksum until we

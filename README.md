@@ -1,6 +1,15 @@
-# Next.js OpenAI Doc Search Starter
+# Next.js OpenAI Company Second Mind
 
-This starter takes all the `.mdx` files in the `pages` directory and processes them to use as custom context within [OpenAI Text Completion](https://platform.openai.com/docs/guides/completion) prompts.
+This is a fork of Supabase's `supabase-community/nextjs-openai-doc-search` repository. It is a template for building your own custom ChatGPT style doc search powered by Next.js, OpenAI, and Supabase.
+
+In this implementation, I have upgraded the docs recovery from not only being able to recover it from MDX static pages, but also from external sources that a Company could have already configured and can be used as a source of information for the AI.
+
+The external sources are:
+
+- StatusPage (Incidents & Maintenance)
+- Readme.com (Documentation & Api Reference)
+- Blog (Coming soon)
+- Notion (Coming soon)
 
 ## Deploy
 
@@ -72,7 +81,13 @@ The initialization of the database, including the setup of the `pgvector` extens
 - `cp .env.example .env`
 - Set your `OPENAI_KEY` in the newly created `.env` file.
 - Set `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` run:
+
   > Note: You have to run supabase to retrieve the keys.
+
+#### Modules
+
+- StatusPage: you will require the `NEXT_PUBLIC_STATUSPAGE_PAGE_ID` and `NEXT_PUBLIC_STATUSPAGE_API_KEY` to retrieve the status of the Supabase instance. You can find these in the [StatusPage.io](https://statuspage.io/) dashboard.
+- Readme.com: you will require the `README_API_KEY` to retrieve the status of the Supabase instance. You can find these in the [Readme.com](https://readme.com/) dashboard.
 
 ### Start Supabase
 
