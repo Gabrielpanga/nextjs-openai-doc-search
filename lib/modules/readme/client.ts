@@ -1,4 +1,4 @@
-import got from 'got'
+import axios from 'axios'
 
 import { Category, CategoryDocs, ChangelogResponse, ReadmeDoc } from './types'
 
@@ -16,43 +16,42 @@ export class ReadmeComApi {
   }
 
   async getChangelogs(): Promise<ChangelogResponse[]> {
-    return await got
-      .get(`${BASE_URL}/changelogs`, {
-        headers: {
-          Authorization: `Basic ${this.apiKey}`,
-        },
-      })
-      .json<ChangelogResponse[]>()
+    const { data } = await axios.get<ChangelogResponse[]>(`${BASE_URL}/changelogs`, {
+      headers: {
+        Authorization: `Basic ${this.apiKey}`,
+      },
+    })
+    return data
   }
 
   async getCategories(): Promise<Category[]> {
-    return await got
-      .get(`${BASE_URL}/categories?perPage=100`, {
-        headers: {
-          Authorization: `Basic ${this.apiKey}`,
-        },
-      })
-      .json<ChangelogResponse[]>()
+    const { data } = await axios.get<Category[]>(`${BASE_URL}/categories?perPage=100`, {
+      headers: {
+        Authorization: `Basic ${this.apiKey}`,
+      },
+    })
+    return data
   }
 
   async getCategoryDocs(categorySlug: Category['slug']): Promise<CategoryDocs[]> {
-    return await got
-      .get(`${BASE_URL}/categories/${categorySlug}/docs`, {
+    const { data } = await axios.get<CategoryDocs[]>(
+      `${BASE_URL}/categories/${categorySlug}/docs`,
+      {
         headers: {
           Authorization: `Basic ${this.apiKey}`,
         },
-      })
-      .json<ChangelogResponse[]>()
+      }
+    )
+    return data
   }
 
   async getDoc(docSlug: Category['slug']): Promise<ReadmeDoc> {
-    return await got
-      .get(`${BASE_URL}/docs/${docSlug}`, {
-        headers: {
-          Authorization: `Basic ${this.apiKey}`,
-        },
-      })
-      .json<ReadmeDoc>()
+    const { data } = await axios.get<ReadmeDoc>(`${BASE_URL}/docs/${docSlug}`, {
+      headers: {
+        Authorization: `Basic ${this.apiKey}`,
+      },
+    })
+    return data
   }
 
   async getAllPages(): Promise<Category[]> {

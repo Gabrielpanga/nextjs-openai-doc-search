@@ -49,6 +49,7 @@ export class StatusPageEmbeddingSource extends BaseEmbeddingSource {
     try {
       const incidentsApi = new IncidentsApi()
       const incidents = await incidentsApi.getUnresolvedIncidents()
+      console.log(`Found ${incidents.length} incidents`)
       return incidents.map((incident) => new StatusPageEmbeddingSource('statuspage', incident))
     } catch (error) {
       console.error(error)
