@@ -1,3 +1,4 @@
+import { getBaseUrl } from '@/lib/utils'
 import axios from 'axios'
 
 export async function sendMessageResponse(response_url: string, answer: any): Promise<any> {
@@ -10,7 +11,7 @@ export async function enqueueJob(
   question: string,
   response_url: string
 ): Promise<any> {
-  const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/slack/job`, {
+  const { data } = await axios.post(`${getBaseUrl()}/api/slack/job`, {
     type,
     question,
     response_url,
