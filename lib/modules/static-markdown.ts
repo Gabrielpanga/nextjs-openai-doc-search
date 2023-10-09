@@ -66,7 +66,7 @@ export class MarkdownEmbeddingSource extends BaseEmbeddingSource {
     }
   }
 
-  static async getAll(): Promise<BaseEmbeddingSource[]> {
+  static async getAll(): Promise<MarkdownEmbeddingSource[]> {
     return [
       ...(await walk('docs'))
         .filter(({ path }) => /\.mdx|.md?$/.test(path))
