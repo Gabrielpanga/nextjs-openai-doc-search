@@ -1,4 +1,4 @@
-import { sendMessageResponse } from '@/lib/modules/slack/utils'
+import { enqueueJob, sendMessageResponse } from '@/lib/modules/slack/utils'
 import { getResponse } from '@/lib/query'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -40,24 +40,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return new Error('Method not allowed')
   }
 
-  console.log(req)
   const requestData = await req.body
 
-  //   const text = requestData.get('text')?.toString()
-  //   const response_url = requestData.get('response_url')?.toString()
   const { text, response_url } = requestData
   const [command, ...params] = text?.split(' ') || []
   switch (command) {
     case 'ask':
       const question = params.join(' ')
 
-      getResponse(question).then(async (res) => {
-        const result = await res.text()
-        console.log('Result: ', result)
-        await sendMessageResponse(response_url || '', {
-          text: `Here is what i found: \n\n ${result}`,
-        })
-      })
+      enqueueJob('ask', question, response_url)
 
       return res.status(200).json({
         text: `Great, i got your question _"${question}"_ :smile: ! Will get back to you in a minute.`,
