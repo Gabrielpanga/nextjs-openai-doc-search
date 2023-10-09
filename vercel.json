@@ -1,0 +1,7 @@
+{
+    "functions": {
+        "api/slack/job.ts": {
+            "maxDuration": 30
+        }
+    }
+}

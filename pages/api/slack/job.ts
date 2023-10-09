@@ -8,6 +8,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   const { response_url, question } = await req.body
 
+  if (!question) {
+    return res.status(400).json({ error: 'Missing question' })
+  }
+
+  if (!response_url) {
+    return res.status(400).json({ error: 'Missing response_url' })
+  }
+
   const response = await getResponse(question)
   const result = await response.text()
   console.log('Result: ', result)
