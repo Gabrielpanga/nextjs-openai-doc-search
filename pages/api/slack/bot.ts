@@ -35,6 +35,10 @@ export const HELP_RESPONSE_PAYLOAD = {
   ],
 }
 
+async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return new Error('Method not allowed')
