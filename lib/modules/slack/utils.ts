@@ -18,5 +18,7 @@ export async function enqueueJob(
     question,
     response_url,
   })
+
+  console.log('Job sent to queue: ', data)
   return data
 }
