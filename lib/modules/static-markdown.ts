@@ -41,39 +41,37 @@ async function walk(dir: string, parentPath?: string): Promise<WalkEntry[]> {
 }
 
 export class MarkdownEmbeddingSource extends BaseEmbeddingSource {
-    type = 'markdown'
-  
-    constructor(source: string, public filePath: string, public parentFilePath?: string) {
-      const path = filePath.replace(/^pages/, '').replace(/\.mdx?$/, '')
-      const parentPath = parentFilePath?.replace(/^pages/, '').replace(/\.mdx?$/, '')
-  
-      super(source, path, parentPath)
-    }
-  
-    async load() {
-      const contents = await readFile(this.filePath, 'utf8')
-  
-      const { checksum, meta, sections } = processMdxForSearch(contents)
-  
-      this.checksum = checksum
-      this.meta = meta
-      this.sections = sections
-  
-      return {
-        checksum,
-        meta,
-        sections,
-      }
-    }
+  type = 'markdown'
 
-    static async getAll() {
-      return [
-        ...(await walk('docs'))
-          .filter(({ path }) => /\.mdx|.md?$/.test(path))
-          .filter(({ path }) => !ignoredFiles.includes(path))
-          .map((entry) => new MarkdownEmbeddingSource('guide', entry.path)),
-      ]
+  constructor(source: string, public filePath: string, public parentFilePath?: string) {
+    const path = filePath.replace(/^pages/, '').replace(/\.mdx?$/, '')
+    const parentPath = parentFilePath?.replace(/^pages/, '').replace(/\.mdx?$/, '')
+
+    super(source, path, parentPath)
+  }
+
+  async load() {
+    const contents = await readFile(this.filePath, 'utf8')
+
+    const { checksum, meta, sections } = processMdxForSearch(contents)
+
+    this.checksum = checksum
+    this.meta = meta
+    this.sections = sections
+
+    return {
+      checksum,
+      meta,
+      sections,
     }
   }
 
-
+  static async getAll(): Promise<BaseEmbeddingSource[]> {
+    return [
+      ...(await walk('docs'))
+        .filter(({ path }) => /\.mdx|.md?$/.test(path))
+        .filter(({ path }) => !ignoredFiles.includes(path))
+        .map((entry) => new MarkdownEmbeddingSource('guide', entry.path)),
+    ]
+  }
+}
