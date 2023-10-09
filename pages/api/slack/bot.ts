@@ -48,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'ask':
       const question = params.join(' ')
 
-      enqueueJob('ask', question, response_url)
+      await enqueueJob('ask', question, response_url)
 
       return res.status(200).json({
         text: `Great, i got your question _"${question}"_ :smile: ! Will get back to you in a minute.`,

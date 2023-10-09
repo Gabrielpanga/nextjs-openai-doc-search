@@ -13,12 +13,17 @@ export async function enqueueJob(
 ): Promise<any> {
   const url = `${getBaseUrl()}/api/slack/job`
   console.log('Sending job to queue: ', url)
-  const { data } = await axios.post(url, {
-    type,
-    question,
-    response_url,
-  })
+  try {
+    const { data } = await axios.post(url, {
+      type,
+      question,
+      response_url,
+    })
 
-  console.log('Job sent to queue: ', data)
-  return data
+    console.log('Job sent to queue: ', data)
+    return data
+  } catch (error) {
+    console.error('Error sending job to queue: ', error)
+    throw error
+  }
 }
